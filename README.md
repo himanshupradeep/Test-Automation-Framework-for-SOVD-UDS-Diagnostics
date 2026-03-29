@@ -254,31 +254,10 @@ with udsoncan.Client(conn, config=config) as client:
 ```
 ---
 Test results
+
+<img width="1325" height="632" alt="image" src="https://github.com/user-attachments/assets/79209f7e-6618-45a2-9423-81a525ef8e3e" />
+
 ```
-============================= test session starts ==============================
-collected 20 items
-
-tests/test_uds_diagnostics.py::TestSessionControl::test_tc01_default_session_on_startup            PASSED
-tests/test_uds_diagnostics.py::TestSessionControl::test_tc01_transition_to_extended_session        PASSED
-tests/test_uds_diagnostics.py::TestSessionControl::test_tc01_coding_did_blocked_in_default_session PASSED
-tests/test_uds_diagnostics.py::TestSessionControl::test_tc01_session_timeout_without_tester_present PASSED
-tests/test_uds_diagnostics.py::TestSessionControl::test_tc01_tester_present_keeps_session_alive    PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_read_identification_dids_in_default_session PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_security_access_seed_key_flow           PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_security_access_denied_without_extended_session PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_invalid_key_returns_nrc                 PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_write_coding_did_full_flow              PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_write_did_boundary_values               PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_write_did_blocked_without_security      PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_write_did_blocked_in_default_session    PASSED
-tests/test_uds_diagnostics.py::TestReadWriteDID::test_tc02_multiple_coding_dids                    PASSED
-tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_no_dtcs_on_clean_ecu                     PASSED
-tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_inject_and_read_single_dtc               PASSED
-tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_multiple_dtcs_all_returned               PASSED
-tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_status_mask_filtering                    PASSED
-tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_clear_all_dtcs                           PASSED
-tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_dtc_status_bits_correct                  PASSED
-
 ============================== 20 passed in 1.57s ==============================
 ```
 Tech stack
