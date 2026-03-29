@@ -1,12 +1,10 @@
-UDS Diagnostic Test Automation
-> Automated ECU diagnostics validation using Python, pytest, and UDS (ISO 14229) — no hardware required.
-![Tests](https://img.shields.io/badge/tests-20%20passed-brightgreen)
-![Python](https://img.shields.io/badge/python-3.12-blue)
-![Protocol](https://img.shields.io/badge/protocol-UDS%20ISO%2014229-orange)
-![License](https://img.shields.io/badge/license-MIT-lightgrey)
+**UDS Diagnostic Test Automation**
+
+> Automated ECU diagnostics validation using Python, pytest, and UDS (ISO 14229)
+
 **---
 What this is
-A Python test automation framework for validating ECU diagnostic behaviour over the UDS protocol. It covers the three areas that appear in almost every automotive test specification — session control, data identifier access, and fault memory management — with 20 automated test cases and a mock ECU that runs entirely in software.
+A Python test automation framework for validating ECU diagnostic behaviour over the UDS protocol. It covers the three areas that appear in almost every automotive test specification like session control, data identifier access, and fault memory management, with 20 automated test cases and a mock ECU that runs entirely in software.
 The mock ECU is a TCP server that behaves identically to a real device from the test's perspective. Swapping it for real hardware means changing one connection string. The test cases themselves do not change.
 ---
 Protocol background
@@ -15,8 +13,9 @@ SOVD (Service-Oriented Vehicle Diagnostics) is the next-generation diagnostic in
 DoIP (ISO 13400) carries UDS messages over Ethernet/IP instead of CAN, enabling the higher bandwidth needed for modern zonal architectures and rapid software flashing.
 SOME/IP is the AUTOSAR middleware protocol used for service-to-service communication over Automotive Ethernet — relevant because infotainment and gateway ECUs increasingly use it alongside UDS.
 Why SDVs raise the bar
-Software-defined vehicles receive over-the-air updates throughout their lifetime. Every update needs to be validated diagnostically — session transitions, security access, DID integrity, fault memory — before it can be approved for rollout. That is not a job for manual testing. It is a job for automated diagnostic regression.
----**
+Software-defined vehicles receive over-the-air updates throughout their lifetime. Every update needs to be validated diagnostically — session transitions, security access, DID integrity, fault memory — before it can be approved for rollout. That is not a job for manual testing. It is a job for automated diagnostic regression.**
+
+---
 Project structure
 ```
 uds_diagnostics_demo/
@@ -53,7 +52,9 @@ Session management is the foundation of everything else in UDS. If it is wrong, 
 Sequence — session timeout without TesterPresent
 > The ECU silently falls back to default session when the heartbeat stops. Without this test, this failure mode only shows up in production as random, unreproducible NRC errors.
 
-![Session Timeout Sequence Diagram]("C:\Users\himan\Pictures\Screenshots\Screenshot 2026-03-29 095359.png")
+<img width="717" height="603" alt="Screenshot 2026-03-29 095359" src="https://github.com/user-attachments/assets/48d3e81d-7214-45d7-a19d-f6193eb68a88" />
+
+
 ```python
 def test_tc01_session_timeout_without_tester_present(self, client, ecu):
     client.set_session(DiagSession.EXTENDED)
@@ -90,8 +91,9 @@ Security access is the most commonly misimplemented service in ECU diagnostics. 
 Sequence — seed-key exchange
 > A wrong key must return NRC 0x35. Three consecutive failures must trigger NRC 0x36 and a 10-second lockout. An ECU that does not lock out is a security violation.
 
+<img width="737" height="600" alt="Screenshot 2026-03-29 095420" src="https://github.com/user-attachments/assets/88dc1463-d48e-4b62-a0e1-86dd16a60655" />
 
-![Security Access Sequence Diagram]("C:\Users\himan\Pictures\Screenshots\Screenshot 2026-03-29 095420.png")
+
 ```python
 def test_tc02_security_access_seed_key_flow(self, client, ecu):
     assert not ecu.state.security_unlocked
@@ -167,7 +169,9 @@ Fault memory is safety-relevant. A DTC stored with the wrong status byte, not st
 Sequence — inject, verify status bits, clear, re-verify
 > The status mask filtering test is the most nuanced. It verifies the ECU correctly applies the 8-bit mask — returning only DTCs whose status byte has the requested bits set. This is where many ECU implementations diverge from spec.
 
-![DTC Fault Memory Sequence Diagram]("C:\Users\himan\Pictures\Screenshots\Screenshot 2026-03-29 095434.png")
+<img width="732" height="628" alt="Screenshot 2026-03-29 095434" src="https://github.com/user-attachments/assets/6bc2b925-f6b9-4b3e-87d6-f8b17068f205" />
+
+
 ```python
 def test_tc03_status_mask_filtering(self, client, ecu):
     # Inject two DTCs with different status bytes
