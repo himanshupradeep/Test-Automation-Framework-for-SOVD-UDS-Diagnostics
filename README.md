@@ -6,12 +6,13 @@ A Python test automation framework for validating ECU diagnostic behaviour over 
 The mock ECU is a TCP server that behaves identically to a real device from the test's perspective. Swapping it for real hardware means changing one connection string. The test cases themselves do not change.
 
 Protocol background
-UDS (ISO 14229) is the standard protocol for communicating with automotive ECUs — reading data, writing calibration values, triggering resets, and managing fault codes.
+UDS (ISO 14229) is the standard protocol for communicating with automotive ECUs, reading data, writing calibration values, triggering resets, and managing fault codes.
 SOVD (Service-Oriented Vehicle Diagnostics) is the next-generation diagnostic interface for software-defined vehicles, exposing ECU capabilities as discoverable API-style services rather than low-level byte requests.
 DoIP (ISO 13400) carries UDS messages over Ethernet/IP instead of CAN, enabling the higher bandwidth needed for modern zonal architectures and rapid software flashing.
-SOME/IP is the AUTOSAR middleware protocol used for service-to-service communication over Automotive Ethernet — relevant because infotainment and gateway ECUs increasingly use it alongside UDS.
-Why SDVs raise the bar
-Software-defined vehicles receive over-the-air updates throughout their lifetime. Every update needs to be validated diagnostically — session transitions, security access, DID integrity, fault memory — before it can be approved for rollout. That is not a job for manual testing. It is a job for automated diagnostic regression.**
+SOME/IP is the AUTOSAR middleware protocol used for service-to-service communication over Automotive Ethernet relevant because infotainment and gateway ECUs increasingly use it alongside UDS.
+
+Why SDVs?
+Software-defined vehicles receive over-the-air updates throughout their lifetime. Every update needs to be validated diagnostically — session transitions, security access, DID integrity, fault memory before it can be approved for rollout. That is not a job for manual testing. It is a job for automated diagnostic regression.
 
 ---
 Project structure
@@ -211,14 +212,14 @@ def test_tc03_clear_all_dtcs(self, client, ecu):
     assert client.read_dtc_count(0xFF) == 0
     assert len(ecu.state.dtcs) == 0
 ```
-**Test	Validates
+Test	Validates
 `test_tc03_no_dtcs_on_clean_ecu`	Fresh ECU returns count = 0
 `test_tc03_inject_and_read_single_dtc`	DTC code and status byte match injected values
 `test_tc03_multiple_dtcs_all_returned`	Three injected faults all appear in 0x19 0x02 response
 `test_tc03_status_mask_filtering`	0xFF all; 0x08 confirmed only; 0x04 pending only
 `test_tc03_clear_all_dtcs`	0x14 0xFF 0xFF 0xFF clears all, count verified as 0
 `test_tc03_dtc_status_bits_correct`	TEST_FAILED, CONFIRMED_DTC, WARNING_INDICATOR bits verified
----**
+
 How this connects to real hardware
 The only change needed to run against a physical ECU is replacing the TCP socket in `uds_client.py` with a `udsoncan` + `python-can` connection over CAN or DoIP over Ethernet.
 ```python
@@ -280,12 +281,13 @@ tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_dtc_status_bits_correc
 
 ============================== 20 passed in 1.57s ==============================
 ```
----
-**Tech stack
+Tech stack
 Tool	Purpose
 `python-can`	CAN bus abstraction (Vector, PCAN, SocketCAN, virtual)
 `udsoncan`	UDS ISO 14229 diagnostic client over CAN
 `pytest`	Test runner with session and function scoped fixtures
 `pytest-html`	HTML test report generation
 TCP sockets	Transport layer for the simulated ECU (replaces CAN / DoIP in hardware setup)
----**
+
+END OF REPORT
+
