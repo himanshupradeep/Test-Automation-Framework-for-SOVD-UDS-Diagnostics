@@ -1,0 +1,9 @@
+# Core automotive testing libraries
+python-can>=4.3.1          # CAN bus abstraction (Vector, PCAN, SocketCAN, virtual)
+udsoncan>=1.25.0           # UDS ISO 14229 diagnostic client
+python-isotp               # ISO 15765-2 transport layer (needed for UDS over CAN)
+
+# Test runner
+pytest>=8.0.0
+pytest-html>=4.0.0         # HTML test report
+pytest-xdist>=3.5.0        # parallel test execution
