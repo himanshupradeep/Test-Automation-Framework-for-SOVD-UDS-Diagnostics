@@ -4,7 +4,7 @@ UDS Diagnostic Test Automation
 ![Python](https://img.shields.io/badge/python-3.12-blue)
 ![Protocol](https://img.shields.io/badge/protocol-UDS%20ISO%2014229-orange)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
----
+**---
 What this is
 A Python test automation framework for validating ECU diagnostic behaviour over the UDS protocol. It covers the three areas that appear in almost every automotive test specification — session control, data identifier access, and fault memory management — with 20 automated test cases and a mock ECU that runs entirely in software.
 The mock ECU is a TCP server that behaves identically to a real device from the test's perspective. Swapping it for real hardware means changing one connection string. The test cases themselves do not change.
@@ -16,7 +16,7 @@ DoIP (ISO 13400) carries UDS messages over Ethernet/IP instead of CAN, enabling 
 SOME/IP is the AUTOSAR middleware protocol used for service-to-service communication over Automotive Ethernet — relevant because infotainment and gateway ECUs increasingly use it alongside UDS.
 Why SDVs raise the bar
 Software-defined vehicles receive over-the-air updates throughout their lifetime. Every update needs to be validated diagnostically — session transitions, security access, DID integrity, fault memory — before it can be approved for rollout. That is not a job for manual testing. It is a job for automated diagnostic regression.
----
+---**
 Project structure
 ```
 uds_diagnostics_demo/
@@ -77,13 +77,13 @@ What the log looks like when this runs:
 09:14:22  DEBUG  MockECU   NRC 7F 22 22 (CONDITIONS_NOT_CORRECT)
 09:14:22  DEBUG  UDSClient ← 7F 22 22
 ```
-Test	Validates
+**Test	Validates
 `test_tc01_default_session_on_startup`	DID 0xF186 returns 0x01 (DEFAULT) on power-on
 `test_tc01_transition_to_extended_session`	0x10 0x03 returns 0x50 0x03, state changes
 `test_tc01_coding_did_blocked_in_default_session`	Coding DID returns NRC 0x22 in default session
 `test_tc01_session_timeout_without_tester_present`	ECU falls back to default after heartbeat stops
 `test_tc01_tester_present_keeps_session_alive`	0x3E refreshes timer; session stays active
----
+---**
 Test suite 2 — Security access and DID read / write
 `0x27 SecurityAccess` + `0x22 ReadDataByIdentifier` + `0x2E WriteDataByIdentifier`
 Security access is the most commonly misimplemented service in ECU diagnostics. These tests cover the full positive path, the expected negative paths, and the boundary conditions for writable coding values.
@@ -209,14 +209,14 @@ def test_tc03_clear_all_dtcs(self, client, ecu):
     assert client.read_dtc_count(0xFF) == 0
     assert len(ecu.state.dtcs) == 0
 ```
-Test	Validates
+**Test	Validates
 `test_tc03_no_dtcs_on_clean_ecu`	Fresh ECU returns count = 0
 `test_tc03_inject_and_read_single_dtc`	DTC code and status byte match injected values
 `test_tc03_multiple_dtcs_all_returned`	Three injected faults all appear in 0x19 0x02 response
 `test_tc03_status_mask_filtering`	0xFF all; 0x08 confirmed only; 0x04 pending only
 `test_tc03_clear_all_dtcs`	0x14 0xFF 0xFF 0xFF clears all, count verified as 0
 `test_tc03_dtc_status_bits_correct`	TEST_FAILED, CONFIRMED_DTC, WARNING_INDICATOR bits verified
----
+---**
 How this connects to real hardware
 The only change needed to run against a physical ECU is replacing the TCP socket in `uds_client.py` with a `udsoncan` + `python-can` connection over CAN or DoIP over Ethernet.
 ```python
@@ -279,11 +279,11 @@ tests/test_uds_diagnostics.py::TestDTCHandling::test_tc03_dtc_status_bits_correc
 ============================== 20 passed in 1.57s ==============================
 ```
 ---
-Tech stack
+**Tech stack
 Tool	Purpose
 `python-can`	CAN bus abstraction (Vector, PCAN, SocketCAN, virtual)
 `udsoncan`	UDS ISO 14229 diagnostic client over CAN
 `pytest`	Test runner with session and function scoped fixtures
 `pytest-html`	HTML test report generation
 TCP sockets	Transport layer for the simulated ECU (replaces CAN / DoIP in hardware setup)
----
+---**
