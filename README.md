@@ -1,4 +1,4 @@
-**UDS Diagnostic Test Automation**
+**SOVD - UDS Diagnostic Test Automation**
 
 > Automated ECU diagnostics validation using Python, pytest, and UDS (ISO 14229)
 
