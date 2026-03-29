@@ -2,11 +2,9 @@
 
 > Automated ECU diagnostics validation using Python, pytest, and UDS (ISO 14229)
 
----
-**What this is
 A Python test automation framework for validating ECU diagnostic behaviour over the UDS protocol. It covers the three areas that appear in almost every automotive test specification like session control, data identifier access, and fault memory management, with 20 automated test cases and a mock ECU that runs entirely in software.
-The mock ECU is a TCP server that behaves identically to a real device from the test's perspective. Swapping it for real hardware means changing one connection string. The test cases themselves do not change.**
----
+The mock ECU is a TCP server that behaves identically to a real device from the test's perspective. Swapping it for real hardware means changing one connection string. The test cases themselves do not change.
+
 Protocol background
 UDS (ISO 14229) is the standard protocol for communicating with automotive ECUs — reading data, writing calibration values, triggering resets, and managing fault codes.
 SOVD (Service-Oriented Vehicle Diagnostics) is the next-generation diagnostic interface for software-defined vehicles, exposing ECU capabilities as discoverable API-style services rather than low-level byte requests.
