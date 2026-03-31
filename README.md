@@ -2,6 +2,9 @@
 
 > Automated ECU diagnostics validation using Python, pytest, and UDS (ISO 14229)
 
+<img width="483" height="483" alt="image" src="https://github.com/user-attachments/assets/44d64677-e3ab-4121-b0b0-7bc7f6ad455d" />
+
+
 A Python test automation framework for validating ECU diagnostic behaviour over the UDS protocol. It covers the three areas that appear in almost every automotive test specification like session control, data identifier access, and fault memory management, with 20 automated test cases and a mock ECU that runs entirely in software.
 The mock ECU is a TCP server that behaves identically to a real device from the test's perspective. Swapping it for real hardware means changing one connection string. The test cases themselves do not change.
 
